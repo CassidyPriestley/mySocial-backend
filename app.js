@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "https://mysocial-frontend.vercel.app"], // add vercel frontend url
     credentials: true,
   })
 );
@@ -35,9 +35,6 @@ app.use("/api/v1/users", userRouter);
 
 // POST ROUTES: localhost:8000/api/v1/notification
 app.use("/api/v1/posts", postRouter);
-
-// NOTIFICATION ROUTES:
-// app.use("/api/v1/notifications", userRouter);
 
 // UNDEFINED ROUTES
 app.all("*", (req, res, next) => {
