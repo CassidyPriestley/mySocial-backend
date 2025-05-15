@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://mysocial-frontend.vercel.app"], // add vercel frontend url
+    origin: ["http://localhost:3000", "https://cassidy-mysocial.netlify.app"], // add vercel frontend url
     credentials: true,
   })
 );
