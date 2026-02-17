@@ -126,7 +126,7 @@ nodemon server.js
 | Method | Endpoint                        | Description                      | Auth Required |
 | ------ | ------------------------------- | -------------------------------- | ------------- |
 | POST   | `/api/v1/users/signup`          | Register a new user              | No            |
-| POST   | `/api/v1/users/verify`.         | Verify email OTP                 | Yes           |
+| POST   | `/api/v1/users/verify`          | Verify email OTP                 | Yes           |
 | POST   | `/api/v1/users/resend-otp`      | Authenticate user                | Yes           |
 | POST   | `/api/v1/users/login`           | Log in user and issue JWT cookie | No            |
 | POST   | `/api/v1/users/logout`          | Log out user and clear cookie    | No            |
