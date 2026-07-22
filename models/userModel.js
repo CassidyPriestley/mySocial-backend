@@ -8,8 +8,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide your name"],
       trim: true,
-      minLength: 5,
-      maxLength: 50,
+      minLength: [2, "Name must be at least 2 characters long"],
+      maxLength: [50, "Name cannot exceed 50 characters"],
       index: true,
     },
     username: {
@@ -17,21 +17,25 @@ const userSchema = new mongoose.Schema(
       required: [true, "Please provide username"],
       unique: true,
       trim: true,
-      minLength: 5,
-      maxLength: 30,
+      minLength: [5, "Username must be at least 5 characters long"],
+      maxLength: [30, "Username cannot exceed 30 characters"],
+      match: [
+        /^[a-zA-Z0-9_.]+$/,
+        "Username can only contain letters, numbers, underscores, and periods",
+      ],
       index: true,
     },
     email: {
       type: String,
-      required: [true, "Please provide email"],
+      required: [true, "Please provide an email address"],
       unique: true,
       lowercase: true,
-      validate: [validator.isEmail, "Please provide a valid email"],
+      validate: [validator.isEmail, "Please provide a valid email address"],
     },
     password: {
       type: String,
-      required: [true, "Please provide password"],
-      minLength: 8,
+      required: [true, "Please provide a password"],
+      minLength: [8, "Password must be at least 8 characters long"],
       select: false,
     },
     passwordConfirm: {
@@ -49,7 +53,7 @@ const userSchema = new mongoose.Schema(
     },
     bio: {
       type: String,
-      maxLength: 150,
+      maxLength: [150, "Bio must not exceed 150 characters"],
       default: "",
     },
     followers: [
@@ -101,7 +105,7 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
     toJSON: { virtuals: true }, // Ensures virtuals appear in API responses
     toObject: { virtuals: true },
-  }
+  },
 );
 
 // VIRTUAL FIELD FOR POST COUNT
@@ -123,7 +127,7 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.correctPassword = async function (
   userPassword,
-  databasePassword
+  databasePassword,
 ) {
   return await bcrypt.compare(userPassword, databasePassword);
 };

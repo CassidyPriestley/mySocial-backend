@@ -27,7 +27,7 @@ const createSendToken = (user, statusCode, res, message) => {
   const token = signToken(user._id);
   const cookieOptions = {
     expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
     ),
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -86,16 +86,16 @@ exports.signup = catchAsync(async (req, res, next) => {
       newUser,
       200,
       res,
-      "Registration Successful. Check your email for otp verification."
+      "Registration Successful. Check your email for otp verification.",
     );
   } catch (error) {
-    // If email does not get sent
+    // IF EMAIL DOES NOT GET SENT
     await User.findByIdAndDelete(newUser.id);
     return next(
       new AppError(
         "There is an error creating this account. Please try again later.",
-        500
-      )
+        500,
+      ),
     );
   }
 });
@@ -113,13 +113,13 @@ exports.verifyAccount = catchAsync(async (req, res, next) => {
   }
 
   if (Date.now() > user.otpExpires) {
-    // check if otp is expired
+    // CHECK IF OTP IS EXPIRED
     return next(
-      new AppError("OTP has expired. Please request a new one.", 400)
+      new AppError("OTP has expired. Please request a new one.", 400),
     );
   }
 
-  // if everything works
+  // IF EVERYTHING WORKS
   user.isVerified = true;
   user.otp = undefined;
   user.otpExpires = undefined;
@@ -176,7 +176,7 @@ exports.resendOtp = catchAsync(async (req, res, next) => {
     user.otpExpires = undefined;
     await user.save({ validateBeforeSave: false });
     return next(
-      new AppError("There is an error sending email, try again.", 500)
+      new AppError("There is an error sending email, try again.", 500),
     );
   }
 });
@@ -255,8 +255,8 @@ exports.forgetPassword = catchAsync(async (req, res, next) => {
     return next(
       new AppError(
         "There was an error sending the email, try again later.",
-        500
-      )
+        500,
+      ),
     );
   }
 });
@@ -302,8 +302,8 @@ exports.changePassword = catchAsync(async (req, res, next) => {
     return next(
       new AppError(
         "User's new password and confirm password are not the same",
-        400
-      )
+        400,
+      ),
     );
   }
 
