@@ -10,7 +10,7 @@ const sendEmail = async (options) => {
   });
 
   const mailOptions = {
-    form: `"MySocial" Share your World `,
+    from: `"MySocial" <${process.env.EMAIL}>`,
     to: options.email,
     subject: options.subject,
     html: options.html,
