@@ -2,11 +2,16 @@ const nodemailer = require("nodemailer");
 
 const sendEmail = async (options) => {
   const transporter = nodemailer.createTransport({
-    service: "Gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
       user: process.env.EMAIL,
       pass: process.env.EMAIL_PASS,
     },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 10000,
   });
 
   const mailOptions = {
@@ -16,7 +21,11 @@ const sendEmail = async (options) => {
     html: options.html,
   };
 
-  // Send our email
+  // DEBUGGING
+  await transporter.verify();
+  console.log("SMTP verified!");
+
+  // SEND OUT EMAIL
   await transporter.sendMail(mailOptions);
 };
 
