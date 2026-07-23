@@ -89,8 +89,10 @@ exports.signup = catchAsync(async (req, res, next) => {
       "Registration Successful. Check your email for otp verification.",
     );
   } catch (error) {
-    // IF EMAIL DOES NOT GET SENT
+    console.error("Email sending failed:", error);
+
     await User.findByIdAndDelete(newUser.id);
+
     return next(
       new AppError(
         "There is an error creating this account. Please try again later.",
